@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <style>
+        .ss{
+            height: 900px;
+        }
+        </style>
+</head>
+<body>
+    <div id="main" class="ss">
+
+    </div>
+</body>
+</html>
+<script>
+
+function getVirtulData(year) {
+    year = year || '2017';
+    var date = +echarts.number.parseDate(year + '-01-01');
+    var end = +echarts.number.parseDate((+year + 1) + '-01-01');
+    var dayTime = 3600 * 24 * 1000;
+    var data = [];
+    for (var time = date; time < end; time += dayTime) {
+        data.push([
+            echarts.format.formatTime('yyyy-MM-dd', time),
+            Math.floor(Math.random() * 10000)
+        ]);
+    }
+    return data;
+}
+
+let a = echarts.init(document.getElementById("main"))
+
+option = {
+    title: {
+        top: 30,
+        left: 'center',
+        text: '2016年某人每天的步数'
+    },
+    tooltip: {},
+    visualMap: {
+        min: 0,
+        max: 10000,
+        type: 'piecewise',
+        orient: 'horizontal',
+        left: 'center',
+        top: 65,
+        textStyle: {
+            color: '#000'
+        }
+    },
+    calendar: {
+        top: 120,
+        left: 30,
+        right: 30,
+        cellSize: ['auto', 13],
+        range: '2016',
+        itemStyle: {
+            borderWidth: 0.5
+        },
+        yearLabel: {show: false}
+    },
+    series: {
+        type: 'heatmap',
+        coordinateSystem: 'calendar',
+        data: getVirtulData(2016)
+    }
+};
+a.setOption(option)
+
+</script>
